@@ -5,14 +5,19 @@ import {
 } from 'react-native';
 
 import Header from './components/header';
+import Repository from './components/Repository';
 
 import styles from './styles';
 
 export default class Lista extends Component {
   static navigationOptions = {
-    header: props => <Header {...props} />
+    header: props => <Header {...props} />,
   }
   render() {
-    return null;
+    return (
+      <View>
+        <Repository />
+      </View>
+    );
   }
 }
