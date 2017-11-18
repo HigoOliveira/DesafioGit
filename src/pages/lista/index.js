@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
 } from 'react-native';
 
+import Header from './components/header';
+
 import styles from './styles';
 
-const Lista = () => (
-  <View style={styles.container}>
-    <Text>Lista de repositórios</Text>
-  </View>
-);
-
-export default Lista;
+export default class Lista extends Component {
+  static navigationOptions = {
+    header: props => <Header {...props} />
+  }
+  render() {
+    return null;
+  }
+}
