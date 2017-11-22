@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   FlatList,
+  Alert,
 } from 'react-native';
 
 import PropTypes from 'prop-types';
@@ -52,16 +53,29 @@ export default class Lista extends Component {
       description,
     } = response.data;
 
-    this.setState(prevState => ({
-      repositories: [...prevState.repositories, {
-        id,
-        name,
-        avatar_url,
-        description,
-        repos,
-      },
-      ],
-    }));
+    const exists = this.state.repositories.filter(repo => repo.repos === repos);
+
+    if (exists.length === 0) {
+      this.setState(prevState => ({
+        repositories: [...prevState.repositories, {
+          id,
+          name,
+          avatar_url,
+          description,
+          repos,
+        },
+        ],
+      }));
+    } else {
+      Alert.alert(
+        'Desafio 02',
+        'Esse repositório já existe!',
+        [
+          { text: 'Ok' },
+        ],
+        { cancelable: false },
+      );
+    }
   }
 
   handleSave = (repos) => {

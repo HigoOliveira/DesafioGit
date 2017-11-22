@@ -28,10 +28,13 @@ export default class Header extends Component {
     const { params = {} } = this.props.navigation.state.routes[0];
     if (params.handleSave) {
       params.handleSave(this.state.repos);
-      this.setState(prevState => ({
-        repos: '',
-      }));
+      this.clearInput();
     }
+  }
+
+  clearInput = () => {
+    this.setState({ repos: '' });
+    this.input.focus();
   }
 
   render() {
@@ -39,6 +42,7 @@ export default class Header extends Component {
       <View style={styles.container}>
         <TextInput
           style={styles.input}
+          ref={(ref) => { this.input = ref; }}
           placeholder="Adicionar repositório"
           autoCaptalize="none"
           autoCorrect={false}
