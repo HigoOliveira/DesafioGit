@@ -45,6 +45,13 @@ export default class Lista extends Component {
   }
 
   checkAndSaveRepos = async (repos) => {
+    const exist = this.state.repositories.filter(repo => repo.repos === repos);
+
+    if (exist.length) {
+      Alert.alert('Esse repositório já está registrado');
+      return;
+    }
+
     const response = await api.get(`repos/${repos}`);
 
     if (!response.ok) throw Error();
@@ -57,22 +64,17 @@ export default class Lista extends Component {
       description,
     } = response.data;
 
-    const exists = this.state.repositories.filter(repo => repo.repos === repos);
+    const data = {
+      id,
+      name,
+      avatar_url,
+      description,
+      repos,
+    };
 
-    if (exists.length === 0) {
-      this.setState(prevState => ({
-        repositories: [...prevState.repositories, {
-          id,
-          name,
-          avatar_url,
-          description,
-          repos,
-        },
-        ],
-      }));
-    } else {
-      Alert.alert('Esse repositório já está registrado');
-    }
+    this.setState(prevState => ({
+      repositories: [...prevState.repositories, data],
+    }));
   }
 
   handleSave = (repos) => {
@@ -81,7 +83,7 @@ export default class Lista extends Component {
     this.checkAndSaveRepos(repos).then(() => {
       this.setState({ loading: false });
     }).catch(() => {
-      console.tron.log('Eu não existo');
+      Alert.alert('Repositório não foi encontrado!');
     });
   }
 
