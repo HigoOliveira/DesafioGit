@@ -6,7 +6,10 @@ export default {
 
   inactive: '#DDD',
 
+  primary: '#136fd0',
+
   grey: '#999',
 
   background: '#EEE',
+
 };

@@ -4,6 +4,8 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
 
 import PropTypes from 'prop-types';
@@ -75,7 +77,6 @@ export default class Issues extends Component {
 
   handleChangeStatus = (state) => {
     this.setState({ state });
-    console.tron.log('State: ' + state);
     this.loadIssues(state);
   }
 
@@ -86,19 +87,35 @@ export default class Issues extends Component {
     });
   }
 
+  handleUpdate = () => {
+    this.setState({ [this.state.state]: { loading: false, data: [] } });
+    this.loadIssues(this.state.state);
+  }
+
   renderIssues = state => (
-    <FlatList
-      refreshControl={
-        <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this.handleRefreshing}
+    this.state[state].data.length
+      ? (
+        <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefreshing}
+            />
+          }
+          data={this.state[state].data}
+          keyExtractor={item => item.id}
+          extraData={this.state}
+          renderItem={({ item }) => <Issue issue={item} onPress={() => {}} />}
         />
-      }
-      data={this.state[state].data}
-      keyExtractor={item => item.id}
-      extraData={this.state}
-      renderItem={({ item }) => <Issue issue={item} onPress={() => {}} />}
-    />
+      )
+      : (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.empty}>Nenhum issue encontrado.</Text>
+          <TouchableOpacity onPress={this.handleUpdate} activeOpacity={0.7}>
+            <Text style={styles.buttonText}>Atualizar</Text>
+          </TouchableOpacity>
+        </View>
+      )
   )
 
   renderList = () => (
