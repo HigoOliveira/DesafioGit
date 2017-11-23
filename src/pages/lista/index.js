@@ -54,12 +54,14 @@ export default class Lista extends Component {
 
     const response = await api.get(`repos/${repos}`);
 
-    if (!response.ok) throw Error();
+    if (!response.ok) {
+      throw Error();
+    }
 
     const {
       id,
       name,
-      organization:
+      owner:
       { avatar_url },
       description,
     } = response.data;
@@ -78,7 +80,7 @@ export default class Lista extends Component {
       console.tron.log(error);
     }
 
-    this.updateList();
+    await this.updateList();
   }
 
   updateList = async () => {
@@ -88,15 +90,20 @@ export default class Lista extends Component {
     this.setState({ repositories });
   }
 
-  handleSave = (repos) => {
-    if (!repos) return;
+  handleSave = async (repos) => {
+    if (!repos) return false;
     this.setState({ loading: true });
-    this.checkAndSaveRepos(repos).then(() => {
+
+    try {
+      await this.checkAndSaveRepos(repos);
       this.setState({ loading: false });
-    }).catch(() => {
+      return true;
+    } catch (err) {
       Alert.alert('Repositório não foi encontrado!');
       this.setState({ loading: false });
-    });
+      console.tron.log(err.message);
+      return false;
+    }
   }
 
   renderRepositories = () => (

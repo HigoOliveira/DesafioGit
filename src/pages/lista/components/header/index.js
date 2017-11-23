@@ -27,8 +27,7 @@ export default class Header extends Component {
   onPress = () => {
     const { params = {} } = this.props.navigation.state.routes[0];
     if (params.handleSave) {
-      params.handleSave(this.state.repos);
-      this.clearInput();
+      params.handleSave(this.state.repos).then(done => done && this.clearInput());
     }
   }
 
