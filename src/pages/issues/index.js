@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,16 @@ import {
 
 import styles from './styles';
 
-const Issues = () => (
-  <View style={styles.container}>
-    <Text>Issues</Text>
-  </View>
-);
+export default class Issues extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.state.params.repo.name,
+  });
 
-export default Issues;
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>Issues</Text>
+      </View>
+    );
+  }
+}

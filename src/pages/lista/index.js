@@ -27,6 +27,7 @@ export default class Lista extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       setParams: PropTypes.func,
+      navigate: PropTypes.func,
     }).isRequired,
   };
 
@@ -106,12 +107,17 @@ export default class Lista extends Component {
     }
   }
 
+  handleGoIssues = (repo) => {
+    const { navigate } = this.props.navigation;
+    navigate('Issues', { repo });
+  }
+
   renderRepositories = () => (
     <FlatList
       data={this.state.repositories}
       keyExtractor={item => item.id}
       extraData={this.state}
-      renderItem={({ item }) => <Repository repo={item} />}
+      renderItem={({ item }) => <Repository repo={item} onPress={this.handleGoIssues} />}
     />
   )
 
