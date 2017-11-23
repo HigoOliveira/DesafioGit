@@ -8,6 +8,8 @@ import {
 
 import PropTypes from 'prop-types';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import styles from './styles';
 
 export default class Issues extends Component {
@@ -41,9 +43,10 @@ export default class Issues extends Component {
           style={styles.avatar}
         />
         <View style={styles.containerInfo}>
-          <Text style={styles.title}>{issue.title}</Text>
+          <Text style={styles.title} numberOfLines={1}>{issue.title}</Text>
           <Text style={styles.login}>{issue.login}</Text>
         </View>
+        <Icon name="chevron-right" size={20} color="#999" style={styles.icon} />
       </TouchableOpacity>
     );
   }

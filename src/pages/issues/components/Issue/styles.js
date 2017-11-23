@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginHorizontal: 20,
+    marginBottom: 10,
     alignItems: 'center',
   },
   avatar: {
@@ -27,6 +28,9 @@ const styles = StyleSheet.create({
   login: {
     color: colors.grey,
     fontSize: fonts.small,
+  },
+  icon: {
+    marginLeft: 10,
   },
 });
 

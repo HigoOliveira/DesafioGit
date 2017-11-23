@@ -102,7 +102,6 @@ export default class Lista extends Component {
     } catch (err) {
       Alert.alert('Repositório não foi encontrado!');
       this.setState({ loading: false });
-      console.tron.log(err.message);
       return false;
     }
   }
