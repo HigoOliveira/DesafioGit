@@ -24,8 +24,6 @@ export default class Issues extends Component {
     onPress: PropTypes.func.isRequired,
   };
 
-  state = {};
-
   onPress = () => {
     const { onPress, issue } = this.props;
 

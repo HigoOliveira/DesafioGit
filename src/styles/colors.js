@@ -6,7 +6,7 @@ export default {
 
   inactive: '#DDD',
 
-  primary: '#136fd0',
+  link: '#136fd0',
 
   grey: '#999',
 
