@@ -4,6 +4,7 @@ import {
   FlatList,
   ActivityIndicator,
   Text,
+  AsyncStorage,
 } from 'react-native';
 
 import PropTypes from 'prop-types';
@@ -34,15 +35,14 @@ export default class Lista extends Component {
     loading: false,
   }
 
-  // async componentWillMount() {
-  //   const response = await api.get('repos/rocketseat/rocketseat.com.br');
-  //
-  //   console.tron.log(avatar_url);
-  // }
+  componentWillMount() {
+    this.updateList();
+  }
 
   componentDidMount() {
     this.props.navigation.setParams({ handleSave: this.handleSave });
   }
+
 
   checkAndSaveRepos = async (repos) => {
     const exist = this.state.repositories.filter(repo => repo.repos === repos);
@@ -64,17 +64,28 @@ export default class Lista extends Component {
       description,
     } = response.data;
 
-    const data = {
+    const list = [...this.state.repositories, {
       id,
       name,
       avatar_url,
       description,
       repos,
-    };
+    }];
 
-    this.setState(prevState => ({
-      repositories: [...prevState.repositories, data],
-    }));
+    try {
+      await AsyncStorage.setItem('@DesafioGit:repositories', JSON.stringify(list));
+    } catch (error) {
+      console.tron.log(error);
+    }
+
+    this.updateList();
+  }
+
+  updateList = async () => {
+    const response = await AsyncStorage.getItem('@DesafioGit:repositories');
+    const repositories = await JSON.parse(response) || [];
+
+    this.setState({ repositories });
   }
 
   handleSave = (repos) => {
@@ -84,6 +95,7 @@ export default class Lista extends Component {
       this.setState({ loading: false });
     }).catch(() => {
       Alert.alert('Repositório não foi encontrado!');
+      this.setState({ loading: false });
     });
   }
 
@@ -114,7 +126,6 @@ export default class Lista extends Component {
   )
 
   render() {
-    console.tron.log(this.state.repositories);
     return (
       <View style={styles.container}>
         {this.state.loading
