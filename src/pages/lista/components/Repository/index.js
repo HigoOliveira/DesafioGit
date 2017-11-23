@@ -46,7 +46,7 @@ export default class Repository extends Component {
           <Text style={styles.titleInfo}>{repo.name}</Text>
           <Text style={styles.titleDescription}>{repo.description}</Text>
         </View>
-        <Icon name="chevron-right" size={20} color="#333" />
+        <Icon name="chevron-right" size={20} color="#999" />
       </TouchableOpacity>
     );
   }

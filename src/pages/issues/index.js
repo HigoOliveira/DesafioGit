@@ -6,6 +6,7 @@ import {
   RefreshControl,
   Text,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 
 import PropTypes from 'prop-types';
@@ -92,6 +93,10 @@ export default class Issues extends Component {
     this.loadIssues(this.state.state);
   }
 
+  renderItem = ({ item }) => (
+    <Issue issue={item} onPress={(issue) => { Linking.openURL(issue.url); }} />
+  )
+
   renderIssues = state => (
     this.state[state].data.length
       ? (
@@ -105,7 +110,7 @@ export default class Issues extends Component {
           data={this.state[state].data}
           keyExtractor={item => item.id}
           extraData={this.state}
-          renderItem={({ item }) => <Issue issue={item} onPress={() => {}} />}
+          renderItem={this.renderItem}
         />
       )
       : (
