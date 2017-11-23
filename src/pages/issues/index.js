@@ -6,6 +6,8 @@ import {
 
 import styles from './styles';
 
+import IssueStatus from './components/IssueStatus';
+
 export default class Issues extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.repo.name,
@@ -14,7 +16,7 @@ export default class Issues extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Issues</Text>
+        <IssueStatus />
       </View>
     );
   }
