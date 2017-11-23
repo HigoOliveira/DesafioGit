@@ -5,21 +5,37 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import PropTypes from 'prop-types';
+
 import styles from './styles';
 
-const ABERTAS = 'ABERTAS';
-const TODAS = 'TODAS';
-const FECHADAS = 'FECHADAS';
+const OPEN = 'open';
+const CLOSED = 'closed';
+const ALL = 'all';
 
 export default class IssueStatus extends Component {
+  static propTypes = {
+    onChange: PropTypes.func,
+  }
+
+  static defaultProps = {
+    onChange: null,
+  }
+
   state = {
-    status: TODAS,
+    status: ALL,
   }
 
   renderButton = (text, tag) => (
     <TouchableOpacity
       style={styles.button}
-      onPress={() => { this.setState({ status: tag }); }}
+      onPress={() => {
+        this.setState({ status: tag });
+        if (tag !== this.state.status && this.props.onChange) {
+          this.props.onChange(tag);
+        }
+      }
+    }
     >
       <View style={
         this.state.status === tag ? styles.activate : styles.inactive
@@ -39,9 +55,9 @@ export default class IssueStatus extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.renderButton('Todas', TODAS)}
-        {this.renderButton('Abertas', ABERTAS)}
-        {this.renderButton('Fechadas', FECHADAS)}
+        {this.renderButton('Todas', ALL)}
+        {this.renderButton('Abertas', OPEN)}
+        {this.renderButton('Fechadas', CLOSED)}
       </View>
     );
   }
